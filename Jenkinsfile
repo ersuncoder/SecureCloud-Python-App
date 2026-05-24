@@ -22,7 +22,9 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 bat 'docker build -t ersun7/python-cloudapp:50 .'
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                // Boyagi eski holat: credentialsId: 'docker-hub-creds'
+                // Yangi to'g'rilangan holat:
+                withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     bat "echo %PASS% | docker login -u %USER% --password-stdin"
                     bat 'docker push ersun7/python-cloudapp:50'
                 }
