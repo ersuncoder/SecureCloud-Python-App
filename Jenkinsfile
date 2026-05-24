@@ -30,13 +30,14 @@ pipeline {
         // YANGI QO'SHILGAN BOSQICH:
         stage('Joriy etish (Deployment)') {
             steps {
-                // 1. Agar xuddi shu nomdagi eski konteyner bo'lsa, uni majburiy o'chiradi.
-                // "|| true" yozuvi agar eski konteyner topilmasa ham pipelineni to'xtatmay, davom etishini ta'minlaydi.
-                bat 'docker rm -f python-app-container || true'
+                script {
+                    // Kubernetes klasteriga fayllarni apply qilamiz
+                    bat 'kubectl apply -f k8s/deployment.yaml'
+                    bat 'kubectl apply -f k8s/service.yaml'
                 
-                // 2. Yangi yuklab olingan (push qilingan) obrazni lokal portda ishga tushiradi.
-                bat 'docker run -d --name python-app-container -p 8000:5000 ersun7/python-cloudapp:50'
+                    // Deployment muvaffaqiyatli bo'lganini tekshiramiz
+                    bat 'kubectl rollout status deployment/python-cloudapp-deployment'
+                }
             }
         }
     }
-}
