@@ -14,7 +14,8 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube-Server') {
-                    bat 'sonar-scanner'
+                    // Yangi yuklab olingan skaner faylining aniq va mutloq manzili:
+                    bat 'C:\\sonar-scanner-cli-5.0.1.3006-windows\\bin\\sonar-scanner.bat'
                 }
             }
         }
