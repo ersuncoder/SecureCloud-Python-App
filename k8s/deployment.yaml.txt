@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-cloudapp-deployment
+  labels:
+    app: python-cloudapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: python-cloudapp
+  template:
+    metadata:
+      labels:
+        app: python-cloudapp
+    spec:
+      containers:
+      - name: python-cloudapp
+        image: ersun7/python-cloudapp:50
+        ports:
+        - containerPort: 5000
